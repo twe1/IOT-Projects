@@ -7,7 +7,7 @@ def on_disconnect(client,userdata, rc):
 	print rc
 	mqttc.reconnect()
 
-mqttc=mqtt.Client("python_pub")
+mqttc=mqtt.Client("wirewords")
 mqttc.on_publish=on_publish
 mqttc.on_disconnect=on_disconnect
 mqttc.connect("test.mosquitto.org",1883)
