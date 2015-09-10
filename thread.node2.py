@@ -10,11 +10,11 @@ class sub(threading.Thread):
 		self.client.loop_forever()
 
 def sub_on_connect(client,userdata,rc):
-	print "Sub Connected to broker. rc=%s" %(str(rc))
+	print "Sub Connected to broker. rc=%d\n\n" %(rc)
 	client.subscribe("wa/thread1/publish")
 
 def sub_on_message(client,userdata,msg):
-	print "Topic: %s, Message: %s" %(msg.topic,msg.payload)
+	print "\t%s" %(msg.payload)
 
 def subfn():
 	client=mqtt.Client()
@@ -38,15 +38,15 @@ class pub(threading.Thread):
 	def run(self):
 		while True:
 			self.client.loop()
-			msg=raw_input("Data: ")
+			msg=raw_input()
 			self.client.publish("wa/thread2/publish",msg, 1)
 
 def pub_on_connect(client,userdata,rc):
-	print "Pub Connected to broker. rc=%s" %(str(rc))
+	print "Pub Connected to broker. rc=%d\n\n" %(rc)
 
 
 def pub_on_disconnect(client,userdata,rc):
-	print "Disconnected..rc=%s" %(str(rc))
+	print "Disconnected..rc=%d" %(rc)
 	client.reconnect()
 
 def pubfn():
