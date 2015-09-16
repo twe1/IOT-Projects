@@ -24,11 +24,13 @@ def sub_on_connect(client,userdata,rc):
 	client.subscribe("wa/thread2/publish")
 
 def on_message(client,userdata,msg):
-	print "\t%s" %(msg.payload)
+	
 	if msg.payload == "on":
 		led.on()
 	else:
 		led.off()
+
+	print "\t%s" %(led.read())
 
 
 def subfn():

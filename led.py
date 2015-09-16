@@ -1,11 +1,18 @@
 import RPi.GPIO as g 
+ledpin=7
+ip=11
+
 def led_init():
 	g.setwarnings(False)
 	g.setmode(g.BOARD)
-	g.setup(7,g.OUT)
+	g.setup(ledpin,g.OUT)
+	g.setup(ip, g.IN)
 def on():
-	g.output(7,True)
+	g.output(ledpin,True)
 def off():
-	g.output(7,False)
+	g.output(ledpin,False)
+def read():
+	value=g.input(ip)
+	return value
 
 led_init()
