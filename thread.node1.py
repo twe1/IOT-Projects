@@ -9,10 +9,10 @@ class sub(threading.Thread):
 		self.client = client
 		
 	def run(self):
+		self.client.loop_start()
 		while not stopThread.isSet():
-			self.client.loop()
 			stopThread.wait(0.001)
-
+		self.client.loop_stop()
 	def join(self,timeout = None):
 		self.client.disconnect()
 		threading.Thread.join(self,timeout)
@@ -53,12 +53,12 @@ class pub(threading.Thread):
 		self.client = client
 		
 	def run(self):
+		self.client.loop_start()
 		while not stopThread.isSet():
-			self.client.loop()
 			msg=raw_input()
 			self.client.publish("wa/thread1/publish",msg,1)
 			stopThread.wait(0.001)
-
+		self.client.loop_stop()
 	def join(self,timeout = None):
 		self.client.disconnect()
 		print "\n\twaiting for KEYBOARD INPUT"
@@ -73,7 +73,7 @@ def pub_on_connect(client,userdata,rc):
 def on_disconnect(client,userdata,rc):
 	print "Disconnected..rc=%d" %(rc)
 	if not stopThread.isSet():
-		client.reconnect()
+		#client.reconnect()
 		print "Reconnected to broker. ."
 
 def pubfn():
