@@ -13,6 +13,8 @@ class sub(threading.Thread):
 		while not stopThread.isSet():
 			stopThread.wait(0.001)
 		self.client.loop_stop()
+
+
 	def join(self,timeout = None):
 		self.client.disconnect()
 		threading.Thread.join(self,timeout)
@@ -30,7 +32,10 @@ def on_message(client,userdata,msg):
 	else:
 		led.off()
 
-	print "\t%s" %(led.read())
+	dev_stat = led.read()
+
+	print "\t%s" %(dev_stat)
+	client.publish("wa/thread1/publish",dev_stat,1)		# Echo to node2
 
 
 def subfn():
