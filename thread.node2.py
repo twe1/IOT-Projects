@@ -30,7 +30,7 @@ def subfn():
 	client.on_connect=sub_on_connect
 	client.on_message=on_message
 	client.on_disconnect = on_disconnect
-	client.connect("192.168.1.22",1883,60)
+	client.connect("192.168.1.6",1883,60)
 
 	sub_thread=sub(client)
 	threadPool.append(sub_thread)
@@ -71,7 +71,7 @@ def pubfn():
 	client=mqtt.Client()
 	client.on_connect=pub_on_connect
 	client.on_disconnect=on_disconnect
-	client.connect("192.168.1.22",1883,60)
+	client.connect("192.168.1.6",1883,60)
 	
 	pub_thread=pub(client)
 	threadPool.append(pub_thread)
