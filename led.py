@@ -1,5 +1,6 @@
 import RPi.GPIO as g 
 def led_init():
+	g.setwarnings(False)
 	g.setmode(g.BOARD)
 	g.setup(7,g.OUT)
 def on():
