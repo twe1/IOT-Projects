@@ -1,4 +1,5 @@
 import sqlite3
+from datetime import datetime
 
 class db():
 	def __init__(self,db_name="database.db"):
@@ -16,5 +17,6 @@ class db():
 	def fetch(self):
 		self.cur.execute('''SELECT time,cmd FROM tb ORDER BY time DESC LIMIT 1''')
 		res=self.cur.fetchall()
-		return res[1]
+		res = res[0][1].encode('ascii')
+		return res
 

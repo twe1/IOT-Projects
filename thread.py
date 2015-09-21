@@ -1,7 +1,6 @@
 
 import paho.mqtt.client as mqtt
 import threading 
-from datetime import datetime
 import led
 import time
 from database import db
@@ -15,6 +14,7 @@ def on_connect(client,userdata,rc):
 
 def on_message(client,userdata,msg):
 	cmd1=msg.payload              # cmd1 is a live command(might be out of order)
+	db_obj.insert(cmd1)
 	cmdx=db_obj.fetch()				#cmdx is fetched from db order by time
 	if cmdx=="on":
 		led.on()
