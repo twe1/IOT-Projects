@@ -13,6 +13,9 @@ def off():
 	g.output(ledpin,False)
 def read():
 	value=g.input(ip)
-	return value
+	if value==1:
+		return "on"
+	else:
+		return "off"
 
 led_init()
