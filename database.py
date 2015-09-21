@@ -14,7 +14,7 @@ class db():
 		self.obj.commit() 
 
 	def fetch(self):
-		self.cur.execute('''SELECT time,cmd FROM tb ORDER BY time DESC LIMIT 1''',(time,cmd))
+		self.cur.execute('''SELECT time,cmd FROM tb ORDER BY time DESC LIMIT 1''')
 		res=self.cur.fetchall()
 		return res[1]
 
