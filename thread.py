@@ -1,7 +1,6 @@
 
 import paho.mqtt.client as mqtt
 import threading 
-import sqlite3
 from datetime import datetime
 import led
 from database import db

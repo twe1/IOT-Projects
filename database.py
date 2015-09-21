@@ -1,3 +1,5 @@
+import sqlite3
+
 class db():
 	def __init__(self,db_name="database.db"):
 		self.obj=sqlite3.connect(db_name)
