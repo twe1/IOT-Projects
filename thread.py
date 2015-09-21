@@ -14,7 +14,7 @@ def on_connect(client,userdata,rc):
 	client.subscribe("wa/thread2/publish")
 
 def on_message(client,userdata,msg):
-	cmd1=msg.payload()              # cmd1 is a live command(might be out of order)
+	cmd1=msg.payload              # cmd1 is a live command(might be out of order)
 	cmdx=db_obj.fetch()				#cmdx is fetched from db order by time
 	if cmdx=="on":
 		led.on()
