@@ -17,9 +17,9 @@ def on_message(client,userdata,msg):
 	cmd1=msg.payload()              # cmd1 is a live command(might be out of order)
 	cmdx=db_obj.fetch()				#cmdx is fetched from db order by time
 	if cmdx=="on":
-			led.on()
-		else:
-			led.off()
+		led.on()
+	else:
+		led.off()
 	
 
 def on_disconnect(client,userdata,rc):
