@@ -7,6 +7,7 @@ from database import db
 
 client=mqtt.Client()  # Global declaration
 db_obj=db()
+stopThread = threading.Event()
 
 def on_connect(client,userdata,rc):
 	print "\nNode Connected to broker. rc=%d\n\n" %(rc)
@@ -45,18 +46,32 @@ class worker(threading.Thread):
 
 		self.con_to_broker()
 
-		while True:
+		while not stopThread.isSet():
 			dev_stat=led.read()
 			client.publish("wa/thread1/publish",dev_stat,1)		# Echo to node2
 			time.sleep(1)
 
-
+	def join(self,timeout = None):
+		client.loop_stop()	
+		client.disconnect()
+		threading.Thread.join(self,timeout)
+		print "\n\t\tKilled thread !!"
 	
 
 
 def main():
 	workerthread=worker()
 	workerthread.start()
+
+	try:
+		while True:
+			pass
+	except KeyboardInterrupt as e:
+		print e
+		stopThread.set()
+		workerthread.join()
+
+		
 
 if __name__ == '__main__':
 	main()
