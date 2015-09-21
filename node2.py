@@ -1,29 +1,34 @@
 import paho.mqtt.client as mqtt
 
 def on_connect(client,userdata,rc):
-	client.subscribe("wa/kitchen")
+	print "\nNode Connected to broker. rc=%d\n\n" %(rc)
+	client.subscribe("wa/thread1/publish")
 
-def on_message(client, userdata, mesg):
-	print "Topic:",mesg.topic," Messagefrom node1:", str(mesg.payload)
+def on_message(client,userdata,msg):
+	print "\t%s" %(msg.payload)
 
-def on_publish(client,userdata, mid):
-	print "Data sent!"
+def on_disconnect(client,userdata,rc):
+	print "Disconnected..rc=%d" %(rc)
+	
+def node():
+	client=mqtt.Client()
+	
+	client.on_connect 	= on_connect
+	client.on_message 	= on_message
+	client.on_disconnect = on_disconnect
+	client.connect("test.mosquitto.org",1883,60)
 
-def on_disconnect(client,userdata, rc):
-	print "Disconnect: ",
-	print rc
-	mqttc.reconnect()
+	client.loop_start()
+	
+	try:
+		while True:
+			msg=raw_input()
+			client.publish("wa/thread2/publish",msg, 1)
+	except KeyboardInterrupt as e:
+		print e
+		client.loop_stop()	
+		client.disconnect()
+	
 
-mqttc=mqtt.Client("wirewords")
-mqttc.on_publish=on_publish
-mqttc.on_disconnect=on_disconnect
-mqttc.on_connect=on_connect
-mqttc.on_message=on_message
-mqttc.connect("test.mosquitto.org",1883,60)
-
-print "Connected to broker.."
-
-while True:
-	msg=raw_input("Enter the message: ")
-	mqttc.publish("wa/kitchen2", msg,1)
-	mqttc.loop()
+if __name__ == '__main__':
+	node()	

@@ -1,30 +1,42 @@
 import paho.mqtt.client as mqtt
-import time
+import led
+
+client=mqtt.Client()  # Global declaration
 
 def on_connect(client,userdata,rc):
-	client.subscribe("wa/kitchen2")
+	print "\nNode Connected to broker. rc=%d\n\n" %(rc)
+	client.subscribe("wa/thread2/publish")
 
-def on_message(client, userdata, msg):
-	print "Topic:",msg.topic," Message from node2:", str(msg.payload)
+def on_message(client,userdata,msg):
+	if msg.payload == "on":
+		led.on()
+	else:
+		led.off()
 
-def on_publish(client,userdata, mid):
-	print "Data sent!"
+	dev_stat = led.read()
 
-def on_disconnect(client,userdata, rc):
-	print "Disconnect:",
-	print rc
-	client.reconnect()
+	print "\t%s" %(dev_stat)
+	client.publish("wa/thread1/publish",dev_stat,1)		# Echo to node2
 
-client=mqtt.Client("wirewords2")
-client.on_connect=on_connect
-client.on_message=on_message
-client.on_publish=on_publish
-client.on_disconnect=on_disconnect
-client.connect("test.mosquitto.org",1883,60)
+def on_disconnect(client,userdata,rc):
+	print "Disconnected..rc=%d" %(rc)
+	
+def node():
+	client.on_connect 	= on_connect
+	client.on_message 	= on_message
+	client.on_disconnect = on_disconnect
+	client.connect("test.mosquitto.org",1883,60)
 
-print "Connected to broker.."
+	client.loop_start()
+	
+	try:
+		while True:
+			pass
+	except KeyboardInterrupt as e:
+		print e
+		client.loop_stop()	
+		client.disconnect()
+	
 
-while True:
-	mesg=raw_input("Enter the message: ")
-	client.publish("wa/kitchen", mesg,1)
-	client.loop()
+if __name__ == '__main__':
+	node()	
