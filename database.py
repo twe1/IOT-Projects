@@ -5,6 +5,11 @@ class db():
 	def __init__(self,db_name="database.db"):
 		self.obj=sqlite3.connect(db_name,check_same_thread=False)
 		self.cur=self.obj.cursor()
+		try:
+			self.cur.execute('''CREATE TABLE tb(id INTEGER PRIMARY KEY AUTOINCREMENT, time STRING, cmd STRING)''')
+		except:
+			pass	
+
 
 	def create_table(self):
 		self.cur.execute('''CREATE TABLE tb(id INTEGER PRIMARY KEY AUTOINCREMENT, time STRING, cmd STRING)''')

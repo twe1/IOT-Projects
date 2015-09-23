@@ -1,11 +1,22 @@
 import paho.mqtt.client as mqtt
+from database import db
+
+db_obj=db("node2.db")
+prv_status= db_obj.fetch() 
+print "\t%s" %(prv_status)
 
 def on_connect(client,userdata,rc):
 	print "\nNode Connected to broker. rc=%d\n\n" %(rc)
 	client.subscribe("wa/thread1/publish")
 
 def on_message(client,userdata,msg):
-	print "\t%s" %(msg.payload)
+	global prv_status
+	
+
+	if prv_status!=msg.payload:
+		print "\t%s" %(msg.payload)
+		db_obj.insert(msg.payload)
+		prv_status = msg.payload
 
 def on_disconnect(client,userdata,rc):
 	print "Disconnected..rc=%d" %(rc)
