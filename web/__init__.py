@@ -5,7 +5,7 @@ app = Flask(__name__)
 
 @app.route('/',methods=['GET'])
 def home():
-	return render_template('home.html',title="IOT !!")
+	return render_template('home.php',title="IOT !!")
 
 
 if __name__ == '__main__':
