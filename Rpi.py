@@ -8,12 +8,13 @@ from database import db
 try:
 	import led
 except Exception, e:
-	import led_dummy as led
 	print e
+	print "Importing led_dummy!!"
+	import led_dummy as led
 
 
 client=mqtt.Client()  # Global declaration
-db_obj=db()
+db_obj=db("rpi.db")
 stopThread = threading.Event()
 
 #broker = "192.168.1.4"
@@ -40,9 +41,7 @@ def on_disconnect(client,userdata,rc):
 class worker(threading.Thread):
 	def __init__(self):
 		threading.Thread.__init__(self)
-		self.cmd_table = db("cmd_tb.db")
-		self.fb_table = db("fb_tb.db")
-
+		
 	def con_to_broker(self):
 		client.on_connect 	= on_connect
 		client.on_message 	= on_message
