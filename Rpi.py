@@ -1,13 +1,23 @@
 
 import paho.mqtt.client as mqtt
 import threading 
-import led
+
 import time
 from database import db
+
+try:
+	import led
+except Exception, e:
+	import led_dummy as led
+	print e
+
 
 client=mqtt.Client()  # Global declaration
 db_obj=db()
 stopThread = threading.Event()
+
+#broker = "192.168.1.4"
+broker = "test.mosquitto.org"
 
 def on_connect(client,userdata,rc):
 	print "\nNode Connected to broker. rc=%d\n\n" %(rc)
@@ -37,7 +47,7 @@ class worker(threading.Thread):
 		client.on_connect 	= on_connect
 		client.on_message 	= on_message
 		client.on_disconnect = on_disconnect
-		client.connect("192.168.1.4",1883,60)
+		client.connect(broker,1883,60)
 
 		client.loop_start()
 

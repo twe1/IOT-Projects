@@ -3,7 +3,12 @@ from database import db
 
 db_obj=db("node2.db")
 prv_status= db_obj.fetch() 
+
+#broker = "192.168.1.4"
+broker = "test.mosquitto.org"
+
 print "\t%s" %(prv_status)
+
 
 def on_connect(client,userdata,rc):
 	print "\nNode Connected to broker. rc=%d\n\n" %(rc)
@@ -27,7 +32,7 @@ def node():
 	client.on_connect 	= on_connect
 	client.on_message 	= on_message
 	client.on_disconnect = on_disconnect
-	client.connect("192.168.1.4",1883,60)
+	client.connect(broker,1883,60)
 
 	client.loop_start()
 	
