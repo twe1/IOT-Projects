@@ -1,13 +1,14 @@
 import paho.mqtt.client as mqtt
 from database import db
 
-db_obj=db("node2.db")
-prv_status= db_obj.fetch() 
+db_sw = db("sw.db")
+db_light = db("light.db")
+prev_status= db_light.fetch() 
 
 #broker = "192.168.1.4"
 broker = "test.mosquitto.org"
 
-print "\t%s" %(prv_status)
+print "\t%s" %(prev_status)
 
 
 def on_connect(client,userdata,rc):
@@ -15,13 +16,14 @@ def on_connect(client,userdata,rc):
 	client.subscribe("wa/thread1/publish")
 
 def on_message(client,userdata,msg):
-	global prv_status
+	global prev_status
 	
+	cur_status = msg.payload
 
-	if prv_status!=msg.payload:
-		print "\t%s" %(msg.payload)
-		db_obj.insert(msg.payload)
-		prv_status = msg.payload
+	if prev_status!= cur_status :
+		print "\t%s" %(cur_status)
+		db_light.insert(cur_status)
+		prev_status = cur_status
 
 def on_disconnect(client,userdata,rc):
 	print "Disconnected..rc=%d" %(rc)
@@ -38,8 +40,13 @@ def node():
 	
 	try:
 		while True:
-			msg=raw_input()
-			client.publish("wa/thread2/publish",msg, 1)
+			cur_cmd = raw_input()		# Link with Webapp here
+			prev_status = db_light.fetch()
+			
+			if prev_status != cur_cmd:
+				client.publish("wa/thread2/publish",cur_cmd, 1)
+				db_sw.insert(cur_cmd)
+
 	except KeyboardInterrupt as e:
 		print e
 		client.loop_stop()	
