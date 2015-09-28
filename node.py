@@ -5,8 +5,8 @@ db_sw = db("sw.db")
 db_light = db("light.db")
 prev_status= db_light.fetch() 
 
-#broker = "192.168.1.4"
-broker = "test.mosquitto.org"
+broker = "192.168.1.4"
+#broker = "test.mosquitto.org"
 
 print "\t%s" %(prev_status)
 

@@ -17,8 +17,8 @@ client=mqtt.Client()  # Global declaration
 db_obj=db("rpi.db")
 stopThread = threading.Event()
 
-#broker = "192.168.1.4"
-broker = "test.mosquitto.org"
+broker = "192.168.1.4"
+#broker = "test.mosquitto.org"
 
 def on_connect(client,userdata,rc):
 	print "\nNode Connected to broker. rc=%d\n\n" %(rc)
