@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}Login{% endblock %}
+
+
+
+{% block navbar %}
+   
+
+    
+    <nav class="navbar navbar-inverse navbar-fixed-top" >
+      <div class="container">
+        
+        
+        <div class="navbar-header">
+          	<div class="hidden-xs">
+	            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+	              <span class="icon-bar"></span>
+	              <span class="icon-bar"></span>
+	              <span class="icon-bar"></span>                        
+	            </button>
+        	</div>
+
+            <a class="navbar-brand" href="/select"><p><img width="20" height="20" src="{{ url_for('static', filename='/img/favicon.ico') }}"> RPi</p></a>
+
+        </div>
+
+ 
+        
+      </div>
+    </nav>
+
+ 
+{% endblock %}
+
+
+{% block page_content %}
+  
+{% if current_user.is_authenticated()%}
+    <meta http-equiv="refresh" content="0; url={{ url_for('select', page=1) }}" />
+{% else %}
+            
+    <br/>
+    
+    {% for message in get_flashed_messages() %}
+      <div class="alert alert-info">
+          <button type="button" class="close" data-dismiss="alert">&times;</button>
+          {{ message }}
+      </div>
+    {% endfor %}
+
+    
+
+
+
+
+		<div class="page-header">
+			<h1 >Login</h1>
+		</div>
+		
+		<div class="container">
+			<form class="form-horizontal" role="form">
+				<div class="form-group">
+					<!--<label class="control-label col-sm-2" for="userName" >User Name:</label>-->
+					<div class="col-sm-4">
+						<input type="text" class="form-control" id="userName" placeholder="Enter User Name" name="username" value="{{ request.form.username }}" required>
+					</div>
+				</div>
+				<br/>
+				<div class="form-group">
+					<!--<label class="control-label col-sm-2" for="pwd" >Password:</label>-->
+					<div class="col-sm-4">
+						<input type="password" class="form-control" id="pwd" placeholder="Enter password" name="password" value="{{ request.form.password }}" required>
+					</div>
+				</div>
+				
+				<br/>
+				
+				<div class="form-group">
+					<div class="col-sm-offset-2 col-sm-10">
+						<button id="loginButton" formmethod="post" type="submit" class="btn btn-default">Submit</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	
+{% endif %}
+
+{% endblock %}
+ 
+
+
+
+
