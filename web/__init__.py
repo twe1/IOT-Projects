@@ -1,27 +1,10 @@
-from flask import Flask, flash, request, jsonify, url_for, render_template, redirect
+from flask import Flask, flash, request, url_for, render_template, redirect
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.bootstrap import Bootstrap
-from functools import wraps
-from datetime import datetime
-
-
-from flask.ext.wtf import Form
-from wtforms import StringField, SubmitField,PasswordField,BooleanField
-from wtforms.validators import Required, Email,Length
-from flask import make_response
-from functools import update_wrapper
-import time
-import random
-
 from flask.ext.login import LoginManager, UserMixin, login_required,login_user,logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
 
-
-
-POSTS_PER_PAGE = 20  # pagination
 app = Flask (__name__)
-
-
 
 bootstrap = Bootstrap(app)
 db = SQLAlchemy(app)
@@ -35,11 +18,6 @@ login_manager.init_app(app)
 
 
 
-class LoginForm(Form):
-    email=StringField('Email',validators=[Required(),Length(1,64),Email()])
-    password=PasswordField('Password',validators=[Required()])
-    remember_me = BooleanField('Keep me logged in')
-    submit = SubmitField('Login')
 
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
@@ -47,14 +25,6 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(64), unique=True, index=True)
     username = db.Column(db.String(64), unique=True, index=True)
     password_hash = db.Column(db.String(128))
-
-    @property
-    def password(self):
-        raise AttributeError('password is not a readable attribute')
-
-    @password.setter
-    def password(self, password):
-        self.password_hash = generate_password_hash(password)
 
     def verify_password(self, password):
         return check_password_hash(self.password_hash, password)
@@ -101,7 +71,6 @@ def home():
 @app.route("/logout",methods=["GET"])
 @login_required
 def logout():
-    form = LoginForm()
     logout_user()
     flash("You've logged out!!")
     return redirect(url_for('login'))
