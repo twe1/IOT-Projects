@@ -15,6 +15,18 @@
 
 
 {% block content %}
+
+ {% with msgs = get_flashed_messages() %}
+        {% if msgs %}
+          {%- for msg in msgs %}
+            <div class="alert alert-info">
+              {{ msg }}
+            </div>
+          {% endfor -%}
+        {% endif %}
+  {% endwith %}
+
+      
 <div class="container">
     <br/><br/><br/>
     

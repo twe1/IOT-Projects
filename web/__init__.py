@@ -59,9 +59,9 @@ def home():
     if request.method == 'POST':
         if request.form['submit'] == "on":
             flash ('On')
+            #return redirect(url_for('logout'))
         elif request.form['submit'] == "off":
             flash ('Off')
-
     return render_template('home.html')
 
 
