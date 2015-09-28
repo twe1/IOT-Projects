@@ -63,34 +63,6 @@ class User(UserMixin, db.Model):
         return '<User %r>' % self.username
     
 
-
-class table(db.Model):
-    __tablename__ = 'backfill'
-    id                  = db.Column(db.Integer, primary_key=True)
-    time                = db.Column(db.DateTime,unique=True)  # If not unique then there will be logical errors
-    power         = db.Column(db.String(5))
-    
-    def __init__(self, arg):
-        pass
-
-
-class database():
-
-    def db_init(self):
-        db.create_all()
-    def drop_all(self):
-        db.drop_all()
-    def filterRange(self,fromTime,toTime,page):
-        #print "---------------------------"
-        results = table.query.filter(table.time <= toTime).filter(table.time >= fromTime).\
-                        order_by(table.time.desc()).\
-                        paginate(page, POSTS_PER_PAGE, False)
-        #print results.__repr__()
-        #print "---------------------------"
-        return results
-            
-
-
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
