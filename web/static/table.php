@@ -10,7 +10,7 @@
 
   <body>
 	 <?php
-		$db = new SQLite3('/home/wirewords/Documents/PowerMeter/rpi.db');
+		$db = new SQLite3('/home/wirewords/light.db');
 
 		$results = $db->query('select * from tb order by time desc limit 1');
 		
