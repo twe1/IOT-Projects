@@ -3,6 +3,7 @@ from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.bootstrap import Bootstrap
 from flask.ext.login import LoginManager, UserMixin, login_required,login_user,logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
+from database_mysql import dbObj
 
 app = Flask (__name__)
 
@@ -32,7 +33,6 @@ class User(UserMixin, db.Model):
     def __repr__(self):
         return '<User %r>' % self.username
     
-
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
@@ -59,9 +59,10 @@ def home():
     if request.method == 'POST':
         if request.form['submit'] == "on":
             flash ('On')
-            #return redirect(url_for('logout'))
+            dbObj.insert("on")
         elif request.form['submit'] == "off":
             flash ('Off')
+            dbObj.insert("off")
     return render_template('home.html')
 
 
