@@ -8,7 +8,11 @@ prev_status= db_light.fetch()
 broker = "192.168.1.4"
 #broker = "test.mosquitto.org"
 
-print "\t%s" %(prev_status)
+try:
+	print "\t%s" %(prev_status)
+except Exception, e:
+	print e
+
 
 
 def on_connect(client,userdata,rc):

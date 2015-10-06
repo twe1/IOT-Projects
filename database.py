@@ -6,8 +6,9 @@ class db():
 		self.obj=pymysql.connect(host='127.0.0.1', user='root', passwd='',db=db_name)
 		self.cur=self.obj.cursor()
 		try:
-			self.cur.execute('''CREATE TABLE tb(id INTEGER PRIMARY KEY AUTOINCREMENT, time STRING, status STRING)''')
+			self.cur.execute('''CREATE TABLE tb(id INTEGER PRIMARY KEY AUTO_INCREMENT, time CHAR(30), status CHAR(30))''')
 		except:
+			print e
 			pass	
 
 
