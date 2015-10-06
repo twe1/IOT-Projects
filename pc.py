@@ -1,8 +1,8 @@
 import paho.mqtt.client as mqtt
 from database import db
 
-db_sw = db("/home/wirewords/sw.db")
-db_light = db("/home/wirewords/light.db")
+db_sw = db("sw")
+db_light = db("light")
 prev_status= db_light.fetch() 
 
 broker = "192.168.1.4"
