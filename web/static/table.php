@@ -10,10 +10,19 @@
 
   <body>
 	 <?php
-		$db = new SQLite3('/home/wirewords/light.db');
+    $servername = "localhost";
+    $username = "root";
+    $password = "";
+    $dbname = "light";
 
+		$db = new mysqli($servername, $username, $password, $dbname);
+
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+    
 		$results = $db->query('select * from tb order by time desc limit 1');
-		
+
 	?>
 
 	
@@ -29,13 +38,15 @@
           </tr>
         </thead>
         <tbody>
-	<?php while ($row = $results->fetchArray()) { ?>
+	<?php while ($row = $results->fetch_assoc()) { ?>
 	  <tr>
-              <td><?php echo $row['time'] ?></td> 
-              <td><?php echo $row['status'] ?></td> 
+              <td><?php echo $row["time"] ?></td> 
+              <td><?php echo $row["status"] ?></td> 
             </tr>
 	      
-	   <?php } ?>
+	   <?php } 
+
+     ?>
 
         
 	   
