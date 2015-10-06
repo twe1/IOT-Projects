@@ -26,6 +26,7 @@ def on_connect(client,userdata,rc):
 
 def on_message(client,userdata,msg):
 	cmd1=msg.payload              # cmd1 is a live command(might be out of order)
+	print cmd1
 	db_obj.insert(cmd1)
 	cmdx=db_obj.fetch()				#cmdx is fetched from db order by time
 	if cmdx=="on":
