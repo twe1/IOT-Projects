@@ -14,7 +14,7 @@ except Exception, e:
 
 
 client=mqtt.Client()  # Global declaration
-db_obj=db("pc")
+db_obj=db("rpi")
 stopThread = threading.Event()
 
 broker = "192.168.1.4"
