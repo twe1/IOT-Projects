@@ -7,7 +7,7 @@ class db():
 		self.cur=self.obj.cursor()
 		try:
 			self.cur.execute('''CREATE TABLE tb(id INTEGER PRIMARY KEY AUTO_INCREMENT, time CHAR(30), status CHAR(30))''')
-		except:
+		except Exception as e:
 			print e
 			pass	
 
