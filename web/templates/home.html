@@ -2,7 +2,44 @@
 {% extends "base.html" %}
 {% block title %}Home{% endblock %}
 
+{% block scripts %}
 
+ {{super()}}
+ <script type="text/javascript">
+		$(document).ready(function(){
+			var number=10;
+			var name= 'dummyNoUse';
+			$.post("{{ url_for('static', filename='table.php') }}",{name:name},function(data){
+			$('span#time').text(data.time);
+		    $('span#status').text(data.status);
+			},'json');
+			function redirect(num){
+				number=num;
+				countdown();
+			}
+
+			function countdown(){
+				
+				
+				setTimeout(countdown,1000);
+				number--;
+				$('#box').html("Redirecting in "+number+" seconds.");
+				if(number<=0)
+				{
+					var name= 'dummyNoUse';
+					$.post("{{ url_for('static', filename='table.php') }}",{name:name},function(data){
+					$('span#time').text(data.time);
+				    $('span#status').text(data.status);
+					},'json');
+					number=3;
+				}
+			}
+		redirect(3);
+
+		});
+</script>
+
+{% endblock scripts %}
 
 {% block navbar %}
 	 
@@ -60,12 +97,28 @@
 </div>
 
 <div class="container">
-<br/>
-	
-	<iframe allowtransparency="true"  src="{{url_for('.static', filename='table.php')}}" width="90%" height="98"></iframe>
+                         
+	<table class="table table-bordered">
+		<thead>
+			<tr>
+				<th>Time</th>
+				<th>Status</th>
+			</tr>
+		</thead>
+
+		<tbody>
+			<tr>
+				<td><span id="time"></span></td> 
+				<td><span id="status"></span></td> 
+			</tr>
+		</tbody>
+
+	</table>
+</div>
+
 	
 
-</div>
+
 	
 	<div class="container">
 		<form class="form-horizontal" role="form">

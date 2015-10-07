@@ -1,68 +1,24 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta http-equiv="refresh" content="2">
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="table.css">
-    
-  </head>
+<?php 
+    $hostname_connection = "localhost"; 
+    $database_connection = "light"; 
+    $username_connection = "root"; 
+    $password_connection = ""; 
+    $connection = mysql_connect($hostname_connection, $username_connection, $password_connection) or trigger_error(mysql_error(),E_USER_ERROR); 
+    mysql_select_db($database_connection,$connection) or die( mysql_error("could not connect to database! " ) ) ; 
+?>
 
-  <body>
-	 <?php
-    $servername = "localhost";
-    $username = "root";
-    $password = "";
-    $dbname = "light";
+<?php $display ="select * from tb order by time desc limit 1"; 
+    $result=mysql_query($display,$connection) or die(mysql_error()); 
+    if($result == FALSE) 
+      { die(mysql_error()); }
+?>
 
-		$db = new mysqli($servername, $username, $password, $dbname);
-
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
-    
-		$results = $db->query('select * from tb order by time desc limit 1');
-
-	?>
-
-	
-
-
-    <div class="container">
-                             
-      <table class="table">
-        <thead>
-          <tr>
-            <th>Time</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-	<?php while ($row = $results->fetch_assoc()) { ?>
-	  <tr>
-              <td><?php echo $row["time"] ?></td> 
-              <td><?php echo $row["status"] ?></td> 
-            </tr>
-	      
-	   <?php } 
-
-     ?>
-
-        
-	   
-	
-
-          
-
-        </tbody>
-      </table>
-    </div>
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-  </body>
-
-</html>
-
-
+<?php 
+    $rows = mysql_fetch_assoc($result);
+    $return_data=array('time' => $rows['time'],
+        'status'     => $rows['status']);
+    header('Content-Type: application/json');
+    echo json_encode($return_data);
+    exit();
+  ?>
 
