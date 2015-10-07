@@ -58,10 +58,8 @@ def login():
 def home():
     if request.method == 'POST':
         if request.form['submit'] == "on":
-            flash ('On')
             dbObj.insert("on")
         elif request.form['submit'] == "off":
-            flash ('Off')
             dbObj.insert("off")
     return render_template('home.html')
 
