@@ -11,9 +11,8 @@ class db():
 		except Exception as e:
 			print e
 			pass	
-
-
-
+		self.cur.close()
+		
 	def insert(self,status):
 		self.obj=pymysql.connect(host='127.0.0.1', user='root', passwd='',db=self.db_name)
 		self.cur=self.obj.cursor()
