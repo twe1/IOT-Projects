@@ -1,38 +1,38 @@
 import paho.mqtt.client as mqtt
 from database import db
+import time
 
 db_sw = db("sw")
 db_light = db("light")
-prev_status= db_light.fetch() 
-
+prev_light_status = db_light.fetch()
 broker = "192.168.1.4"
 #broker = "test.mosquitto.org"
 
 try:
-	print "\t%s" %(prev_status)
+	print "\t%s" %(prev_light_status)
 except Exception, e:
 	print e
-
-
 
 def on_connect(client,userdata,rc):
 	print "\nNode Connected to broker. rc=%d\n\n" %(rc)
 	client.subscribe("wa/thread1/publish")
 
 def on_message(client,userdata,msg):
-	global prev_status
+	global prev_light_status
 	
-	cur_status = msg.payload
+	cur_light_status = msg.payload
 
-	if prev_status!= cur_status :
-		print "\t%s" %(cur_status)
-		db_light.insert(cur_status)
-		prev_status = cur_status
+	if prev_light_status!= cur_light_status :
+		print "\t%s" %(cur_light_status)
+		db_light.insert(cur_light_status)
+		prev_light_status = cur_light_status
 
 def on_disconnect(client,userdata,rc):
 	print "Disconnected..rc=%d" %(rc)
 	
 def node():
+	global prev_sw_status
+
 	client=mqtt.Client()
 	
 	client.on_connect 	= on_connect
@@ -44,12 +44,14 @@ def node():
 	
 	try:
 		while True:
-			cur_cmd = raw_input()		# Link with Webapp here
-			prev_status = db_light.fetch()
+			cur_sw_status = db_sw.fetch()
+			time.sleep(0.5)
+			if prev_light_status != cur_sw_status:
+				client.publish("wa/thread2/publish",cur_sw_status, 1)
+				print cur_sw_status
 			
-			if prev_status != cur_cmd:
-				client.publish("wa/thread2/publish",cur_cmd, 1)
-				db_sw.insert(cur_cmd)
+
+			
 
 	except KeyboardInterrupt as e:
 		print e

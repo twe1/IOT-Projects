@@ -3,7 +3,7 @@ from datetime import datetime
 
 class database():
 	def __init__(self):
-		self.obj=pymysql.connect(host='127.0.0.1', user='root', passwd='',db='iot')
+		self.obj=pymysql.connect(host='127.0.0.1', user='root', passwd='',db='sw')
 		self.cur=self.obj.cursor()
 		
 		
@@ -11,6 +11,17 @@ class database():
 		time=datetime.strftime(datetime.now(), "%d/%m/%Y %H:%M:%S")
 		self.cur.execute('''INSERT INTO tb(time,status) VALUES(%s,%s)''',(time,status))
 		self.obj.commit() 
+
+	def fetch(self):
+		self.cur.execute('''SELECT time,status FROM tb ORDER BY time DESC LIMIT 1''')
+		res=self.cur.fetchall()
+		try:
+			res = res[0][1].encode('ascii')
+		except Exception, e:
+			print e
+			
+		
+		return res
 
 dbObj = database()
 
