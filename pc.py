@@ -2,8 +2,15 @@ import paho.mqtt.client as mqtt
 from database import db
 import time
 
-db_sw = db("sw")
-db_light = db("light")
+while True:
+	try:
+		db_sw = db("sw")
+		db_light = db("light")
+		break
+	except Exception as e:
+		print e
+	time.sleep(0.5)
+
 prev_light_status = db_light.fetch()
 broker = "192.168.1.4"
 #broker = "test.mosquitto.org"
