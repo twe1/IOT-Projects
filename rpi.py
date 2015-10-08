@@ -25,7 +25,7 @@ while True:
 
 stopThread = threading.Event()
 
-broker = "192.168.1.4"
+broker = "192.168.1.5"
 #broker = "test.mosquitto.org"
 
 def on_connect(client,userdata,rc):
