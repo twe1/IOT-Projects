@@ -10,7 +10,7 @@ app = Flask (__name__)
 bootstrap = Bootstrap(app)
 db = SQLAlchemy(app)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////home/wirewords/Documents/PowerMeter/database.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:@localhost/login'
 app.secret_key = 'my secret key is this'
 login_manager = LoginManager()
 login_manager.session_protection ='strong'
@@ -23,8 +23,8 @@ login_manager.init_app(app)
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(64), unique=True, index=True)
-    username = db.Column(db.String(64), unique=True, index=True)
+    email = db.Column(db.String(64))
+    username = db.Column(db.String(64))
     password_hash = db.Column(db.String(128))
 
     def verify_password(self, password):
