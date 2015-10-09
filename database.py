@@ -14,7 +14,7 @@ class db():
 		self.cur.close()
 		
 	def insert(self,status):
-		self.obj=pymysql.connect(host='127.0.0.1', user='root', passwd='',db=self.db_name)
+		self.obj=pymysql.connect(host='127.0.0.1', user='admin', passwd='aaggss',db=self.db_name)
 		self.cur=self.obj.cursor()
 
 		time=datetime.strftime(datetime.now(), "%d/%m/%Y %H:%M:%S")
@@ -23,7 +23,7 @@ class db():
 		self.cur.close()
 
 	def fetch(self):
-		self.obj=pymysql.connect(host='127.0.0.1', user='root', passwd='',db=self.db_name)
+		self.obj=pymysql.connect(host='127.0.0.1', user='admin', passwd='aaggss',db=self.db_name)
 		self.cur=self.obj.cursor()
 
 		self.cur.execute('''SELECT time,status FROM tb ORDER BY time DESC LIMIT 1''')
