@@ -7,12 +7,12 @@ from sqlalchemy import event
 from sqlalchemy import DDL
 from werkzeug.security import generate_password_hash, check_password_hash
 import pymysql
-conn = pymysql.connect(host='127.0.0.1', user='root', passwd='',db='login')
+conn = pymysql.connect(host='127.0.0.1', user='admin', passwd='aaggss',db='login')
 cur = conn.cursor()
 
 app = Flask (__name__)
 db = SQLAlchemy(app)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:@localhost/login'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://admin:aaggss@localhost/login'
 
 class users(db.Model):
     __tablename__ = 'users'

@@ -10,7 +10,7 @@ app = Flask (__name__)
 bootstrap = Bootstrap(app)
 db = SQLAlchemy(app)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:@localhost/login'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://admin:aaggss@localhost/login'
 app.secret_key = 'my secret key is this'
 login_manager = LoginManager()
 login_manager.session_protection ='strong'
