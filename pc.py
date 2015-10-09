@@ -12,8 +12,8 @@ while True:
 	time.sleep(0.5)
 
 prev_light_status = db_light.fetch()
-broker = "192.168.1.5"
-#broker = "test.mosquitto.org"
+#broker = "192.168.1.5"
+broker = "test.mosquitto.org"
 
 try:
 	print "\t%s" %(prev_light_status)
